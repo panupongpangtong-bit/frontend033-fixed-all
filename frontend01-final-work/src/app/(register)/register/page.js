@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
-const REGISTER_URL = "https://api.itdev.cmtc.ac.th/users/";
+const REGISTER_URL = "https://api.itdev.cmtc.ac.th/users";
 
 export default function FormRegister() {
   const router = useRouter();
