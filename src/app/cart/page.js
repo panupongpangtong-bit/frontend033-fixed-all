@@ -3,7 +3,11 @@
 import { useCart } from "@/context/cartcontext";
 
 export default function CartPage() {
-  const { cart, totalItems, totalPrice } = useCart();
+  const cartData = useCart();
+
+  const cart = cartData?.cart ?? [];
+  const totalItems = cartData?.totalItems ?? 0;
+  const totalPrice = cartData?.totalPrice ?? 0;
 
   return (
     <main className="min-h-screen bg-gray-50 p-8 dark:bg-[#071426]">

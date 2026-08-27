@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 
-const CartContext = createContext();
+const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
@@ -60,12 +60,14 @@ export function CartProvider({ children }) {
     0
   );
 
-  const totalPrice = cart.reduce(
-    (total, item) =>
-      total +
-      Number(item.price.replace(/[฿,]/g, "")) * item.quantity,
-    0
-  );
+  const totalPrice = cart.reduce((total, item) => {
+    const price =
+      typeof item.price === "string"
+        ? Number(item.price.replace(/[฿,]/g, ""))
+        : Number(item.price);
+
+    return total + price * item.quantity;
+  }, 0);
 
   return (
     <CartContext.Provider
@@ -84,5 +86,13 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CartContext);
+  const context = useContext(CartContext);
+
+  if (!context) {
+    throw new Error(
+      "useCart ต้องถูกใช้งานภายใน <CartProvider>"
+    );
+  }
+
+  return context;
 }
